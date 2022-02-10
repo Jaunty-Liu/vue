@@ -1,33 +1,25 @@
 <template>
-	<div v-show="person.name">姓名：{{person.name}}</div>
-	<div v-show="person.sex">性别：{{person.sex}}</div>
-	<button @click="addSex">添加一个sex属性</button>
-	<button @click="deleteName">删除一个name属性</button>
+	<Demo @hello="showHelloMsg" msg="你好啊" school="尚硅谷">
+		<template v-slot:qwe>
+			<span>尚硅谷</span>
+		</template>
+		<template v-slot:asd>
+			<span>尚硅谷</span>
+		</template>
+	</Demo>
 </template>
 
 <script>
-	import {reactive} from 'vue'
+	import Demo from './components/Demo'
 	export default {
 		name: 'App',
+		components:{Demo},
 		setup(){
-			//数据
-			let person = reactive({
-				name:'张三'
-			})
-
-			//方法
-			function addSex(){
-				person.sex = '男'
+			function showHelloMsg(value){
+				alert(`你好啊，你触发了hello事件，我收到的参数是:${value}！`)
 			}
-			function deleteName(){
-				delete person.name
-			}
-
-			//返回一个对象（常用）
 			return {
-				person,
-				addSex,
-				deleteName
+				showHelloMsg
 			}
 		}
 	}
