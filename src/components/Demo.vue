@@ -5,11 +5,6 @@
 	<h2>当前的信息为：{{msg}}</h2>
 	<button @click="msg+='！'">修改信息</button>
 	<hr>
-	<h2>姓名1：{{human.name}}</h2>
-	<h2>年龄1：{{human.age}}</h2>
-	<button @click="human.name+='~'">修改姓名</button>
-	<button @click="human.age++">增长年龄</button>
-	<hr>
 	<h2>姓名：{{person.name}}</h2>
 	<h2>年龄：{{person.age}}</h2>
 	<h2>薪资：{{person.job.j1.salary}}K</h2>
@@ -19,18 +14,13 @@
 </template>
 
 <script>
-	import {ref,reactive, watch} from 'vue'
-	// import {watch} from 'vue'
+	import {ref,reactive,watch,watchEffect} from 'vue'
 	export default {
 		name: 'Demo',
 		setup(){
 			//数据
 			let sum = ref(0)
 			let msg = ref('你好啊')
-			let human = ref({
-				name:'李四',
-				age: 19
-			})
 			let person = reactive({
 				name:'张三',
 				age:18,
@@ -41,56 +31,22 @@
 				}
 			})
 
-			//情况一：监视ref所定义的一个响应式数据
-			watch(sum,(newValue,oldValue)=>{
-				console.log('sum变了',newValue,oldValue)
-			},{immediate:true})
-			// 设置immediate:true就是最开始就会调用一次，也就是会打印“sum变了 0 undefined”
+			//监视
+			/* watch(sum,(newValue,oldValue)=>{
+				console.log('sum的值变化了',newValue,oldValue)
+			},{immediate:true}) */
 
-			//情况二：监视ref所定义的多个响应式数据
-			watch([sum,msg],(newValue,oldValue)=>{
-				console.log('sum或msg变了',newValue,oldValue)
-			},{immediate:true})
-			// 设置immediate:true就是最开始就会打印“sum或msg变了 [0 "你好啊"] []”，注意这里就是数组了，不是undefined
-
-			//情况三：监视ref所定义的一个响应式对象
-			watch(human.value,(newValue, oldValue) => {
-				// 去掉value就没发监听了！！！因为是ref！！！
-				console.log("human变化了", newValue, oldValue)
-				// ※※※注意ref的对象的newValue和oldValue都是newValue
+			watchEffect(()=>{
+				const x1 = sum.value
+				const x2 = person.job.j1.salary
+				console.log('watchEffect所指定的回调执行了')
 			})
-
-			/* 
-				情况四：监视reactive所定义的一个响应式数据的全部属性
-						1.注意：此处无法正确的获取oldValue
-						2.注意：强制开启了深度监视（deep配置无效）
-			*/
-			watch(person,(newValue,oldValue)=>{
-				console.log('person变化了',newValue,oldValue)
-			},{deep:false}) //此处的deep配置无效
-
-			//情况五：监视reactive所定义的一个响应式数据中的某个属性
-			watch(()=>person.name,(newValue,oldValue)=>{
-				console.log('person的name变化了',newValue,oldValue)
-			})
-
-			//情况六：监视reactive所定义的一个响应式数据中的某些属性
-			watch([()=>person.name,()=>person.age],(newValue,oldValue)=>{
-				console.log('person的name或age变化了',newValue,oldValue)
-			})
-
-			//※※※特殊情况
-			watch(()=>person.job,(newValue,oldValue)=>{
-				console.log('person的job变化了',newValue,oldValue)
-			},{deep:true}) 
-			//此处由于监视的是reactive所定义的对象中的某个属性，所以deep配置有效
 
 			//返回一个对象（常用）
 			return {
 				sum,
 				msg,
-				person,
-				human
+				person
 			}
 		}
 	}
