@@ -1,42 +1,45 @@
 <template>
 	<h1>一个人的信息</h1>
-	<h2>姓名：{{person.name}}</h2>
-	<h2>年龄：{{person.age}}</h2>
-	<slot name="qwe"></slot>
-	<slot name="asd"></slot>
-	<button @click="test">测试触发一下Demo组件的Hello事件</button>
+	姓：<input type="text" v-model="person.firstName">
+	<br>
+	名：<input type="text" v-model="person.lastName">
+	<br>
+	<span>全名：{{person.fullName}}</span>
+	<br>
+	全名：<input type="text" v-model="person.fullName">
 </template>
 
 <script>
-	import {reactive} from 'vue'
+	import {reactive,computed} from 'vue'
 	export default {
 		name: 'Demo',
-		props:['msg', 'school'],// 必写，有了这句setup才能收到props里面的内容
-		// 数据不能少写但是可以多写，没有传入的数据就是undefined
-		emits:['hello'],// 与Vue2的不同：子组件必须声明收到了hello事件
-		setup(props,context){
-			// console.log('---setup---',props)// 打印的就是上面的props对象
-			// console.log('---setup---',context)
-			// console.log('---setup---',context.attrs) //相当与Vue2中的$attrs
-			// console.log('---setup---',context.emit) //触发自定义事件的。
-			console.log('---setup---',context.slots) //插槽
+		setup(){
 			//数据
 			let person = reactive({
-				name:'张三',
-				age:18
+				firstName:'张',
+				lastName:'三'
 			})
+			//计算属性——简写（没有考虑计算属性被修改的情况），也就是这样写修改会报错
+			/* person.fullName = computed(()=>{
+				return person.firstName + '-' + person.lastName
+			}) */
 
-			//方法
-			function test(){
-				context.emit('hello',666)
-			}
+			//计算属性——完整写法（考虑读和写）
+			person.fullName = computed({
+				get(){
+					return person.firstName + '-' + person.lastName
+				},
+				set(value){
+					const nameArr = value.split('-')
+					person.firstName = nameArr[0]
+					person.lastName = nameArr[1]
+				}
+			})
 
 			//返回一个对象（常用）
 			return {
-				person,
-				test
+				person
 			}
 		}
 	}
 </script>
-
