@@ -1,20 +1,15 @@
 <template>
 	<div class="child">
-		<h3>我是Child组件（子）</h3>
+		<h3>我是Child组件</h3>
 		<Son/>
 	</div>
 </template>
 
 <script>
-	import {inject} from 'vue'
-	import Son from './Son.vue'
+	import Son from './Son'
 	export default {
 		name:'Child',
 		components:{Son},
-		/* setup(){
-			let x = inject('car')
-			console.log(x,'Child-----')
-		} */
 	}
 </script>
 
