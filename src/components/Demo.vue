@@ -1,4 +1,11 @@
 <template>
+	<h4>当前的x.y值是：{{x.y}}</h4>
+	<!-- 这个功能无用，因为value是NaN -->
+	<button @click="x++">点我x++</button>
+	<!-- 要用的话只能直接替换 -->
+	<button @click="x={y:888}">点我替换x</button>
+	<button @click="x.y++">点我x.y++</button>
+	<hr>
 	<h4>{{person}}</h4>
 	<h2>姓名：{{name}}</h2>
 	<h2>年龄：{{age}}</h2>
@@ -9,12 +16,13 @@
 </template>
 
 <script>
-	import {reactive,toRef,toRefs} from 'vue'
+	import {ref,reactive,toRef,toRefs,shallowReactive,shallowRef} from 'vue'
 	export default {
 		name: 'Demo',
 		setup(){
-			//数据
-			let person = reactive({
+			//只考虑第一层数据的响应式，也就是按“涨薪”按钮之后不会响应，但是数据实际上被改变了，修改第一层数据其他几层数据就会响应
+			let person = shallowReactive({
+			// let person = reactive({
 				name:'张三',
 				age:18,
 				job:{
@@ -23,23 +31,15 @@
 					}
 				}
 			})
-
-			const name1 = person.name
-			console.log('%%%',name1)// 只打印字符串
-
-			const name2 = toRef(person,'name')
-			console.log('####',name2)// 打印ref类型
-
-			const x = toRefs(person)
-			console.log('******',x)
+			let x = shallowRef({
+				y:0
+			})
+			console.log('******',x)// value是NaN
 
 			//返回一个对象（常用）
 			return {
+				x,
 				person,
-				// name:ref(person,'name'),// 但是这样的话以后修改的就是name而不是person.name了
-				// name:toRef(person,'name'),// 这样的话以后修改的才直接就是person.name
-				// age:toRef(person,'age'),
-				// salary:toRef(person.job.j1,'salary'),
 				...toRefs(person)
 			}
 		}
