@@ -1,8 +1,5 @@
 <template>
-	<ul>
-    	<li v-for="(item,index) in list" :key="index" :class="{'red':index==0,'blue':index==1}">{{item}}</li>
-    	<li v-for="(item,index) in list" :key="index" :style="[index == 0? styleRed: null, index == 1? styleBlue: null]">{{item}}</li>
-	</ul>
+	<a href="http://www.baidu.com" target="_blank" @click="afn($event)">跳转</a>
 </template>
 
 <script>
@@ -10,24 +7,16 @@ export default {
     name: "App",
     data() {
         return {
-          list: ['马总', '刘总', '李总'],
-		  styleRed: {
-			  color: 'red'
-		  },
-		  styleBlue: {
-			  color: 'blue'
-		  }
         };
     },
+	methods: {
+		afn(e){
+			// 这样就阻止了跳转
+			e.preventDefault();
+		}
+	},
 };
 </script>
 
 <style>
-	.red {
-		color: red;
-	}
-
-	.blue {
-		color: blue;
-	}
 </style>
