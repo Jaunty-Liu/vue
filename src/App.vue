@@ -1,5 +1,7 @@
 <template>
-	<a href="http://www.baidu.com" target="_blank" @click="afn($event)">跳转</a>
+	<!-- <input type="text" @keyup="afn($event)"> -->
+	<!-- 也就是相当于 -->
+	<input type="text" @keyup.enter="afn1">
 </template>
 
 <script>
@@ -11,8 +13,13 @@ export default {
     },
 	methods: {
 		afn(e){
-			// 这样就阻止了跳转
-			e.preventDefault();
+			console.log(e);
+			if(e.keyCode == 13){
+				console.log("按了回车键");
+			}
+		},
+		afn1(){
+			console.log("按了回车键");
 		}
 	},
 };
