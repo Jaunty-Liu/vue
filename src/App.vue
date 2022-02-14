@@ -1,5 +1,5 @@
 <template>
-<Home />
+    <Home @change="showChange"/>
 </template>
 
 <script>
@@ -8,8 +8,12 @@ import Home from './components/Home';
 export default {
     data() {
         return {
-            msg: "app根组件",
         };
+    },
+    methods: {
+        showChange(event) {
+            console.log(event.target.value) // 获取子组件选择的值也就是value，1或2或3
+        }
     },
     //2、挂载组件
     components: {
@@ -17,10 +21,3 @@ export default {
     }
 };
 </script>
-
-<style>
-* {
-    padding: 0px;
-    margin: 0px;
-}
-</style>
