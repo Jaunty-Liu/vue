@@ -1,23 +1,23 @@
 <template>
-    <Home @change="showChange"/>
+<News />
+<hr>
+<Baidu />
 </template>
 
 <script>
 //1、引入组件
-import Home from './components/Home';
+import News from './components/News';
+import Baidu from './components/Baidu';
 export default {
     data() {
         return {
+            msg: "app根组件",
         };
-    },
-    methods: {
-        showChange(event) {
-            console.log(event.target.value) // 获取子组件选择的值也就是value，1或2或3
-        }
     },
     //2、挂载组件
     components: {
-        Home
+        News,
+        Baidu
     }
 };
 </script>
