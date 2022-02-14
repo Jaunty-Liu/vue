@@ -1,23 +1,33 @@
 <template>
-<News />
-<hr>
-<Baidu />
+<h1>我是app根组件--{{title}}</h1>
+<input type="text" v-model="username" />
+{{username}}
+<br><br>
+<Home />
 </template>
 
 <script>
-//1、引入组件
-import News from './components/News';
-import Baidu from './components/Baidu';
+import Home from './components/Home';
+import {reactive, ref, provide, toRefs} from "vue"
 export default {
-    data() {
+    name: 'App',
+    setup() {
+        let userinfo = reactive({
+            username: "张三",
+            age: 20
+        })
+        let title = ref("app根组件里面的title");
+
+        provide("title", title);
+        provide("userinfo", userinfo);
         return {
-            msg: "app根组件",
-        };
+            title,
+            ...toRefs(userinfo)
+        }
     },
-    //2、挂载组件
     components: {
-        News,
-        Baidu
-    }
-};
+        Home
+    },
+
+}
 </script>

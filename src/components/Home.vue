@@ -1,27 +1,19 @@
 <template>
-    <div class="home">
-        <button @click="isShow=!isShow">挂载/卸载组件</button>
-        <br>
-        <keep-alive>
-            <life-cycle v-if="isShow"></life-cycle>
-        </keep-alive>
+    <div>
+        <h2>Home组件</h2>
+        <Location />
     </div>
 </template>
 
 <script>
-import LifeCycle from './LifeCycle';
-export default {
-    data() {
-        return {
-            isShow: true
-        }
-    },
-    methods: {
+import Location from "./Location"
 
+export default {
+    name: "Home组件",
+    data() {
     },
     components: {
-        LifeCycle
+        Location
     }
-
 }
 </script>
