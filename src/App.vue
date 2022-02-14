@@ -1,33 +1,27 @@
 <template>
-<h1>我是app根组件--{{title}}</h1>
-<input type="text" v-model="username" />
-{{username}}
-<br><br>
-<Home />
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
 </template>
 
-<script>
-import Home from './components/Home';
-import {reactive, ref, provide, toRefs} from "vue"
-export default {
-    name: 'App',
-    setup() {
-        let userinfo = reactive({
-            username: "张三",
-            age: 20
-        })
-        let title = ref("app根组件里面的title");
+<script lang="ts">
+import { defineComponent } from 'vue';
+import HelloWorld from './components/HelloWorld.vue';
 
-        provide("title", title);
-        provide("userinfo", userinfo);
-        return {
-            title,
-            ...toRefs(userinfo)
-        }
-    },
-    components: {
-        Home
-    },
-
-}
+export default defineComponent({
+  name: 'App',
+  components: {
+    HelloWorld
+  }
+});
 </script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
